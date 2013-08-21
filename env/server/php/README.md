@@ -1,9 +1,6 @@
 Coder Toolset
 =============
 
-A coding toolset for coders.
-
-Including
-- ZenBrowser
-- Zenux (Zen Style Linux)
-- ZenTrac
+LAMP install   
+@allengaller:   
+Source: https://github.com/shanahanjrs/lamp-install/blob/master/lamp-install.sh   
