@@ -163,3 +163,47 @@ fi
 #sudo apt-get install libapache2-mod-auth-mysql php5-mysql  # for integrating apache, php and mysql
 #sudo /etc/init.d/apache2 restart                           # to restart apache
 #echo "Congratulations!!! LAMP is successfully installed. "
+
+#Yet another shell:
+#!/usr/bin/bash
+
+# Update Ubuntu environment
+# update() {
+#   sudo apt-get update
+#   sudo apt-get upgrade
+#   sudo apt-get install sh  
+# }
+
+# # LAMP installation; this includes some PHP modules and PHPMyAdmin as well
+# lamp() {
+#   sudo apt-get install apache2 pear myql-server mysql-client memcached php5 phpmyadmin libapache2-mod-php5 php5-memcache php5-memcached php5-mysql php5-common php5-cli php5-dev php5-curl php5-imagick php5-imap php5-intl
+#   ln -s /usr/share/phpmyadmin/ /var/www/phpmyadmin
+#   sudo /etc/init.d/apache2 restart
+# }
+
+# zend() {
+#   sudo add-apt-repository ppa:zend-framework/ppa
+#   sudo apt-get update
+#   sudo apt-get install zend-framework
+# }
+
+# eclipse() {
+#   sudo apt-get install eclipse
+# }
+
+# phpunit() {
+#   sudo apt-get install phpunit
+#   sudo pear upgrade pear
+#   sudo pear channel-discover pear.phpunit.de
+#   sudo pear channel-discover components.ez.no
+#   sudo pear channel-discover pear.symfony-project.com
+#   sudo pear install --alldeps phpunit/PHPUnit
+  
+# #Next steps to fix issues (Upgrading to 3.5)
+#   sudo pear install -f phpunit/DbUnit
+#   sudo pear install -f phpunit/PHPUnit_MockObject
+#   sudo pear install -f phpunit/PHPUnit_Selenium
+# }
+
+# # Success!
+# exit 0;
