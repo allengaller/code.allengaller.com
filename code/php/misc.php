@@ -1664,10 +1664,129 @@ a / (2^n) 等价于 a>> n
 在32位系统上不要右移超过32位,不要在结果可能超过 32 位的情况下左移
 
 	
+//从一个PHP数据生成 CSV 文件
+这的确是一个很简单的功能，从一个PHP数组生成一个.csv文件。此函数使用 fputcsv PHP 内置函数生成逗号分隔文件（.CSV）。该函数有3个参数：数据，分隔符和CSV enclosure 默认是双引号。
+<?
+function generateCsv($data, $delimiter = ',', $enclosure = '"') {
+   $handle = fopen('php://temp', 'r+');
+   foreach ($data as $line) {
+		   fputcsv($handle, $line, $delimiter, $enclosure);
+   }
+   rewind($handle);
+   while (!feof($handle)) {
+		   $contents .= fread($handle, 8192);
+   }
+   fclose($handle);
+   return $contents;
+}
+?>
 	
+//使用PHP对数据库输入进行恶意代码清除	
+这是一个有用的PHP函数清理了所有的输入数据，并删除代码注入的几率。
+
+
+function sanitize_input_data($input_data) {
+	$input_data = trim(htmlentities(strip_tags($input_data,“,”)));
+	if (get_magic_quotes_gpc())
+	$input_data = stripslashes($input_data);
+	$input_data = mysql_real_escape_string($input_data);
+	return $input_data;
+}
 	
+//使用PHP解压文件Unzip
+这是一个非常方便的PHP函数从。zip文件解压缩文件。它有两个参数：第一个是压缩文件的路径和第二个是目标文件的路径。
+
+function unzip_file($file, $destination) {
+	// create object
+	$zip = new ZipArchive() ;
+	// open archive
+	if ($zip->open($file) !== TRUE) {
+		die ('Could not open archive');
+	}
+	// extract contents to destination directory
+	$zip->extractTo($destination);
+	// close archive
+	$zip->close();
+	echo 'Archive extracted to directory';
+}	
 	
-	
-	
-	
-	
+//从网页提取的关键字
+真的是一个非常有用的代码片段从任何网页中提取meta关键字。
+
+$meta = get_meta_tags('http://www.emoticode.net/');
+$keywords = $meta['keywords'];
+// Split keywords
+$keywords = explode(',', $keywords );
+// Trim them
+$keywords = array_map( 'trim', $keywords );
+// Remove empty values
+$keywords = array_filter( $keywords );
+
+print_r( $keywords );	
+
+//检查服务器是否是 HTTPS
+这个PHP代码片段能够读取关于你服务器 SSL 启用(HTTPS)信息。
+if ($_SERVER['HTTPS'] != "on") { 
+	echo "This is not HTTPS";
+}else{
+	echo "This is HTTPS";
+}
+
+//创建数据的URI 
+因为我们知道，数据URI可以将图像嵌入到HTML，CSS和JS以节省HTTP请求。这是一个非常实用的PHP代码片段来创建数据URI。
+function data_uri($file, $mime) {
+  $contents=file_get_contents($file);
+  $base64=base64_encode($contents);
+  echo "data:$mime;base64,$base64";
+}
+
+//取得一个页面中的所有链接
+取得一个页面中的所有链接
+$html = file_get_contents('http://blog.0907.org');
+
+$dom = new DOMDocument();
+@$dom->loadHTML($html);
+
+// grab all the on the page
+$xpath = new DOMXPath($dom);
+$hrefs = $xpath->evaluate("/html/body//a");
+
+for ($i = 0; $i < $hrefs->length; $i++) {
+       $href = $hrefs->item($i);
+       $url = $href->getAttribute('href');
+       echo $url.'
+';
+}
+//使用PHP下载和保存远程图片在你的服务器中。
+$image = file_get_contents('http://blog.0907.org/wp-content/uploads/2014/03/xunlei.jpg');
+file_put_contents('/images/image.jpg', $image); //save the image on your server
+
+//彻底解决跨浏览器下PHP下载文件名中的中文乱码问题
+<?php
+
+$ua = $_SERVER["HTTP_USER_AGENT"];
+
+$filename = "中文 文件名.txt";
+$encoded_filename = urlencode($filename);
+$encoded_filename = str_replace("+", "%20", $encoded_filename);
+
+header('Content-Type: application/octet-stream');
+
+if (preg_match("/MSIE/", $ua)) {
+	header('Content-Disposition: attachment; filename="' . $encoded_filename . '"');
+} else if (preg_match("/Firefox/", $ua)) {
+	header('Content-Disposition: attachment; filename*="utf8\'\'' . $filename . '"');
+} else {
+	header('Content-Disposition: attachment; filename="' . $filename . '"');
+}
+
+print 'ABC';
+?>
+
+//禁用 HTTP 缓存
+header("Content-Type: application/json");
+header("Expires: 0");
+header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+header("Cache-Control: no-store, no-cache, must-revalidate");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
