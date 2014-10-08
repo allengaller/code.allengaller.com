@@ -491,214 +491,168 @@ function getCity($ip)
 	return $data;	
 }
 
-1. PHP可阅读随机字符串
-
+/*
+PHP可阅读随机字符串
 此代码将创建一个可阅读的字符串，使其更接近词典中的单词，实用且具有密码验证功能。
-
-/**************
-*@length &ndash; length of random string (must be a multiple of 2)
-**************/
+*/
 function readable_random_string($length = 6){
-$conso=array(“b”,”c”,”d”,”f”,”g”,”h”,”j”,”k”,”l”,
-“m”,”n”,”p”,”r”,”s”,”t”,”v”,”w”,”x”,”y”,”z”);
-$vocal=array(“a”,”e”,”i”,”o”,”u”);
-$password=”";
-srand ((double)microtime()*1000000);
-$max = $length/2;
-for($i=1; $i<=$max; $i++)
-{
-$password.=$conso[rand(0,19)];
-$password.=$vocal[rand(0,4)];
-}
-return $password;
+	$conso=array("b","c","d","f","g","h","j","k","l","m","n","p","r","s","t","v","w","x","y","z");
+	$vocal=array("a","e","i","o","u");
+	$password="";
+	srand ((double)microtime()*1000000);
+	$max = $length/2;
+	for($i=1; $i<=$max; $i++) {
+		$password.=$conso[rand(0,19)];
+		$password.=$vocal[rand(0,4)];
+	}
+	return $password;
 }
 
-2. PHP生成一个随机字符串
-
+/*
+PHP生成一个随机字符串
 如果不需要可阅读的字符串，使用此函数替代，即可创建一个随机字符串，作为用户的随机密码等。
-
-/*************
-*@l – length of random string
 */
 function generate_rand($l){
-$c= “ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789″;
-srand((double)microtime()*1000000);
-for($i=0; $i<$l; $i++) {
-$rand.= $c[rand()%strlen($c)];
-}
-return $rand;
+	$c= "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+	srand((double)microtime()*1000000);
+	for($i=0; $i<$l; $i++) {
+		$rand.= $c[rand()%strlen($c)];
+	}
+	return $rand;
 }
 
-3. PHP编码电子邮件地址
-
+/*
+PHP编码电子邮件地址
 使用此代码，可以将任何电子邮件地址编码为 html 字符实体，以防止被垃圾邮件程序收集。
-
-function encode_email($email=’info@domain.com’, $linkText=’Contact Us’, $attrs =’class=”emailencoder”‘ )
+*/
+function encode_email($email='info@domain.com', $linkText='Contact Us', $attrs ='class="emailencoder"' )
 {
-// remplazar aroba y puntos
-$email = str_replace(‘@’, ‘&#64;’, $email);
-$email = str_replace(‘.’, ‘&#46;’, $email);
-$email = str_split($email, 5);
+	// remplazar aroba y puntos
+	$email = str_replace('@', '&#64;', $email);
+	$email = str_replace('.', '&#46;', $email);
+	$email = str_split($email, 5);
 
-$linkText = str_replace(‘@’, ‘&#64;’, $linkText);
-$linkText = str_replace(‘.’, ‘&#46;’, $linkText);
-$linkText = str_split($linkText, 5);
+	$linkText = str_replace('@', '&#64;', $linkText);
+	$linkText = str_replace('.', '&#46;', $linkText);
+	$linkText = str_split($linkText, 5);
 
-$part1 = ‘$part2 = ‘ilto&#58;’;
-$part3 = ‘” ‘. $attrs .’ >’;
-$part4 = ‘’;
+	$part1 = '$part2 = 'ilto&#58;';
+	$part3 = '" '. $attrs .' >';
+	$part4 = '';
 
-$encoded = ‘’;
+	$encoded = '';
 
-return $encoded;
+	return $encoded;
 }
 
-4. PHP验证邮件地址
-
+/*
+PHP验证邮件地址
 电子邮件验证也许是中最常用的网页表单验证，此代码除了验证电子邮件地址，也可以选择检查邮件域所属 DNS 中的 MX 记录，使邮件验证功能更加强大。
-
+*/
 function is_valid_email($email, $test_mx = false)
 {
-if(eregi(“^([_a-z0-9-]+)(\.[_a-z0-9-]+)*@([a-z0-9-]+)(\.[a-z0-9-]+)*(\.[a-z]{2,4})$”, $email))
-if($test_mx)
-{
-list($username, $domain) = split(“@”, $email);
-return getmxrr($domain, $mxrecords);
-}
-else
-return true;
-else
-return false;
+	if(eregi("^([_a-z0-9-]+)(\.[_a-z0-9-]+)*@([a-z0-9-]+)(\.[a-z0-9-]+)*(\.[a-z]{2,4})$", $email))
+	if($test_mx) {
+		list($username, $domain) = split("@", $email);
+		return getmxrr($domain, $mxrecords);
+	}
+	else
+	return true;
+	else
+	return false;
 }
 
-5. PHP列出目录内容
-
+//PHP列出目录内容
 function list_files($dir)
 {
-if(is_dir($dir))
-{
-if($handle = opendir($dir))
-{
-while(($file = readdir($handle)) !== false)
-{
-if($file != “.” && $file != “..” && $file != “Thumbs.db”)
-{
-echo ‘’.$file.’
-’.”\n”;
-}
-}
-closedir($handle);
-}
-}
+	if(is_dir($dir)){
+		if($handle = opendir($dir)){
+			while(($file = readdir($handle)) !== false)	{
+				if($file != "." && $file != ".." && $file != "Thumbs.db")	{
+					echo ''.$file.''."\n";
+				}
+			}
+			closedir($handle);
+		}
+	}
 }
 
-6. PHP销毁目录
-
-删除一个目录，包括它的内容。
-
-/*****
-*@dir – Directory to destroy
-*@virtual[optional]- whether a virtual directory
+/*
+PHP销毁目录 删除一个目录，包括它的内容。
 */
 function destroyDir($dir, $virtual = false)
 {
-$ds = DIRECTORY_SEPARATOR;
-$dir = $virtual ? realpath($dir) : $dir;
-$dir = substr($dir, -1) == $ds ? substr($dir, 0, -1) : $dir;
-if (is_dir($dir) && $handle = opendir($dir))
-{
-while ($file = readdir($handle))
-{
-if ($file == ‘.’ || $file == ‘..’)
-{
-continue;
-}
-elseif (is_dir($dir.$ds.$file))
-{
-destroyDir($dir.$ds.$file);
-}
-else
-{
-unlink($dir.$ds.$file);
-}
-}
-closedir($handle);
-rmdir($dir);
-return true;
-}
-else
-{
-return false;
-}
+	$ds = DIRECTORY_SEPARATOR;
+	$dir = $virtual ? realpath($dir) : $dir;
+	$dir = substr($dir, -1) == $ds ? substr($dir, 0, -1) : $dir;
+	if (is_dir($dir) && $handle = opendir($dir)){
+		while ($file = readdir($handle)){
+			if ($file == '.' || $file == '..'){
+				continue;
+			}	elseif (is_dir($dir.$ds.$file))	{
+				destroyDir($dir.$ds.$file);
+			}	else	{
+				unlink($dir.$ds.$file);
+			}
+		}
+		closedir($handle);
+		rmdir($dir);
+		return true;
+	}	else	{
+		return false;
+	}
 }
 
-7. PHP解析 JSON 数据
-
+/*
+PHP解析 JSON 数据
 与大多数流行的 Web 服务如 twitter 通过开放 API 来提供数据一样，它总是能够知道如何解析 API 数据的各种传送格式，包括 JSON，XML 等等。
-
-$json_string=’{“id”:1,”name”:”foo”,”email”:”foo@foobar.com”,”interest”:["wordpress","php"]} ‘;
+*/
+$json_string='{"id":1,"name":"foo","email":"foo@foobar.com","interest":["wordpress","php"]} ';
 $obj=json_decode($json_string);
 echo $obj->name; //prints foo
 echo $obj->interest[1]; //prints php
 
-8. PHP解析 XML 数据
-
-//xml string
-$xml_string=”
-
-
+//PHP解析 XML 数据
+$xml_string="
 Foo
 foo@bar.com
-
-
 Foobar
 foobar@foo.com
-
-”;
-
+";
 //load the xml string using simplexml
 $xml = simplexml_load_string($xml_string);
-
 //loop through the each node of user
-foreach ($xml->user as $user)
-{
-//access attribute
-echo $user['id'], ‘  ‘;
-//subnodes are accessed by -> operator
-echo $user->name, ‘  ‘;
-echo $user->email, ‘
-’;
+foreach ($xml->user as $user){
+	//access attribute
+	echo $user['id'], '  ';
+	//subnodes are accessed by -> operator
+	echo $user->name, '  ';
+	echo $user->email, ' ';
 }
 
-9. PHP创建日志缩略名
-
+/*
+PHP创建日志缩略名
 创建用户友好的日志缩略名。
-
+*/
 function create_slug($string){
-$slug=preg_replace(‘/[^A-Za-z0-9-]+/’, ‘-’, $string);
-return $slug;
+	$slug=preg_replace('/[^A-Za-z0-9-]+/', '-', $string);
+	return $slug;
 }
 
-10. PHP获取客户端真实 IP 地址
-
+/*
+PHP获取客户端真实 IP 地址
 该函数将获取用户的真实 IP 地址，即便他使用代理服务器。
-
+*/
 function getRealIpAddr()
 {
-if (!emptyempty($_SERVER['HTTP_CLIENT_IP']))
-{
-$ip=$_SERVER['HTTP_CLIENT_IP'];
-}
-elseif (!emptyempty($_SERVER['HTTP_X_FORWARDED_FOR']))
-//to check ip is pass from proxy
-{
-$ip=$_SERVER['HTTP_X_FORWARDED_FOR'];
-}
-else
-{
-$ip=$_SERVER['REMOTE_ADDR'];
-}
-return $ip;
+	if (!emptyempty($_SERVER['HTTP_CLIENT_IP']))	{
+		$ip=$_SERVER['HTTP_CLIENT_IP'];
+	}elseif(!emptyempty($_SERVER['HTTP_X_FORWARDED_FOR'])){	//to check ip is pass from proxy	
+		$ip=$_SERVER['HTTP_X_FORWARDED_FOR'];
+	}else{
+		$ip=$_SERVER['REMOTE_ADDR'];
+	}
+	return $ip;
 }
 
 11. PHP强制性文件下载
@@ -711,12 +665,12 @@ return $ip;
 function force_download($file)
 {
 if ((isset($file))&&(file_exists($file))) {
-header(“Content-length: “.filesize($file));
-header(‘Content-Type: application/octet-stream’);
-header(‘Content-Disposition: attachment; filename=”‘ . $file . ‘”‘);
-readfile(“$file”);
+header("Content-length: ".filesize($file));
+header('Content-Type: application/octet-stream');
+header('Content-Disposition: attachment; filename="' . $file . '"');
+readfile("$file");
 } else {
-echo “No file selected”;
+echo "No file selected";
 }
 }
 
@@ -727,7 +681,7 @@ function getCloud( $data = array(), $minFontSize = 12, $maxFontSize = 30 )
 $minimumCount = min( array_values( $data ) );
 $maximumCount = max( array_values( $data ) );
 $spread       = $maximumCount – $minimumCount;
-$cloudHTML    = ”;
+$cloudHTML    = ";
 $cloudTags    = array();
 
 $spread == 0 && $spread = 1;
@@ -736,19 +690,19 @@ foreach( $data as $tag => $count )
 {
 $size = $minFontSize + ( $count – $minimumCount )
 * ( $maxFontSize – $minFontSize ) / $spread;
-$cloudTags[] = ‘. ‘” href=”#” title=”\” . $tag  .
-‘\’ returned a count of ‘ . $count . ‘”>’
-. htmlspecialchars( stripslashes( $tag ) ) . ‘’;
+$cloudTags[] = '. '" href="#" title="\" . $tag  .
+'\' returned a count of ' . $count . '">'
+. htmlspecialchars( stripslashes( $tag ) ) . '';
 }
 
-return join( “\n”, $cloudTags ) . “\n”;
+return join( "\n", $cloudTags ) . "\n";
 }
 /**************************
 ****   Sample usage    ***/
-$arr = Array(‘Actionscript’ => 35, ‘Adobe’ => 22, ‘Array’ => 44, ‘Background’ => 43,
-‘Blur’ => 18, ‘Canvas’ => 33, ‘Class’ => 15, ‘Color Palette’ => 11, ‘Crop’ => 42,
-‘Delimiter’ => 13, ‘Depth’ => 34, ‘Design’ => 8, ‘Encode’ => 12, ‘Encryption’ => 30,
-‘Extract’ => 28, ‘Filters’ => 42);
+$arr = Array('Actionscript' => 35, 'Adobe' => 22, 'Array' => 44, 'Background' => 43,
+'Blur' => 18, 'Canvas' => 33, 'Class' => 15, 'Color Palette' => 11, 'Crop' => 42,
+'Delimiter' => 13, 'Depth' => 34, 'Design' => 8, 'Encode' => 12, 'Encryption' => 30,
+'Extract' => 28, 'Filters' => 42);
 echo getCloud($arr, 12, 36);
 
 13. PHP寻找两个字符串的相似性
@@ -770,8 +724,8 @@ similar_text($string1, $string2, $percent);
 */
 function show_gravatar($email, $size, $default, $rating)
 {
-echo ‘‘&default=’.$default.’&size=’.$size.’&rating=’.$rating.’” width=”‘.$size.’px”
-height=”‘.$size.’px” />’;
+echo ''&default='.$default.'&size='.$size.'&rating='.$rating.'" width="'.$size.'px"
+height="'.$size.'px" />';
 }
 
 15. PHP在字符断点处截断文字
@@ -780,7 +734,7 @@ height=”‘.$size.’px” />’;
 
 // Original PHP code by Chirp Internet: www.chirp.com.au
 // Please acknowledge use of this code by including this header.
-function myTruncate($string, $limit, $break=”.”, $pad=”…”) {
+function myTruncate($string, $limit, $break=".", $pad="…") {
 // return with no change if string is shorter than $limit
 if(strlen($string) <= $limit)
 return $string;
@@ -794,12 +748,12 @@ $string = substr($string, 0, $breakpoint) . $pad;
 return $string;
 }
 /***** Example ****/
-$short_string=myTruncate($long_string, 100, ‘ ‘);
+$short_string=myTruncate($long_string, 100, ' ');
 
 16. PHP文件 Zip 压缩
 
 /* creates a compressed zip file */
-function create_zip($files = array(),$destination = ”,$overwrite = false) {
+function create_zip($files = array(),$destination = ",$overwrite = false) {
 //if the zip file already exists and overwrite is false, return false
 if(file_exists($destination) && !$overwrite) { return false; }
 //vars
@@ -826,7 +780,7 @@ foreach($valid_files as $file) {
 $zip->addFile($file,$file);
 }
 //debug
-//echo ‘The zip archive contains ‘,$zip->numFiles,’ files with a status of ‘,$zip->status;
+//echo 'The zip archive contains ',$zip->numFiles,' files with a status of ',$zip->status;
 
 //close the zip — done!
 $zip->close();
@@ -840,8 +794,8 @@ return false;
 }
 }
 /***** Example Usage ***/
-$files=array(‘file1.jpg’, ‘file2.jpg’, ‘file3.gif’);
-create_zip($files, ‘myzipfile.zip’, true);
+$files=array('file1.jpg', 'file2.jpg', 'file3.gif');
+create_zip($files, 'myzipfile.zip', true);
 
 17. PHP解压缩 Zip 文件
 
@@ -854,21 +808,21 @@ function unzip_file($file, $destination){
 $zip = new ZipArchive() ;
 // open archive
 if ($zip->open($file) !== TRUE) {
-die (’Could not open archive’);
+die ('Could not open archive');
 }
 // extract contents to destination directory
 $zip->extractTo($destination);
 // close archive
 $zip->close();
-echo ‘Archive extracted to directory’;
+echo 'Archive extracted to directory';
 }
 
 18. PHP为 URL 地址预设 http 字符串
 
 有时需要接受一些表单中的网址输入，但用户很少添加 http:// 字段，此代码将为网址添加该字段。
 
-if (!preg_match(“/^(http|ftp):/”, $_POST['url'])) {
-$_POST['url'] = ‘http://’.$_POST['url'];
+if (!preg_match("/^(http|ftp):/", $_POST['url'])) {
+$_POST['url'] = 'http://'.$_POST['url'];
 }
 
 19. PHP将网址字符串转换成超级链接
@@ -876,12 +830,12 @@ $_POST['url'] = ‘http://’.$_POST['url'];
 该函数将 URL 和 E-mail 地址字符串转换为可点击的超级链接。
 
 function makeClickableLinks($text) {
-$text = eregi_replace(‘(((f|ht){1}tp://)[-a-zA-Z0-9@:%_+.~#?&//=]+)’,
-‘\1’, $text);
-$text = eregi_replace(‘([[:space:]()[{}])(www.[-a-zA-Z0-9@:%_+.~#?&//=]+)’,
-‘\1\2’, $text);
-$text = eregi_replace(‘([_.0-9a-z-]+@([0-9a-z][0-9a-z-]+.)+[a-z]{2,3})’,
-‘\1’, $text);
+$text = eregi_replace('(((f|ht){1}tp://)[-a-zA-Z0-9@:%_+.~#?&//=]+)',
+'\1', $text);
+$text = eregi_replace('([[:space:]()[{}])(www.[-a-zA-Z0-9@:%_+.~#?&//=]+)',
+'\1\2', $text);
+$text = eregi_replace('([_.0-9a-z-]+@([0-9a-z][0-9a-z-]+.)+[a-z]{2,3})',
+'\1', $text);
 
 return $text;
 }
@@ -898,14 +852,14 @@ return $text;
 */
 function resize_image($filename, $tmpname, $xmax, $ymax)
 {
-$ext = explode(“.”, $filename);
+$ext = explode(".", $filename);
 $ext = $ext[count($ext)-1];
 
-if($ext == “jpg” || $ext == “jpeg”)
+if($ext == "jpg" || $ext == "jpeg")
 $im = imagecreatefromjpeg($tmpname);
-elseif($ext == “png”)
+elseif($ext == "png")
 $im = imagecreatefrompng($tmpname);
-elseif($ext == “gif”)
+elseif($ext == "gif")
 $im = imagecreatefromgif($tmpname);
 
 $x = imagesx($im);
@@ -932,7 +886,7 @@ return $im2;
 
 大多数的 JavaScript 框架如 jquery，Mootools 等，在发出 Ajax 请求时，都会发送额外的 HTTP_X_REQUESTED_WITH 头部信息，头当他们一个ajax请求，因此你可以在服务器端侦测到 Ajax 请求。
 
-if(!emptyempty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == ‘xmlhttprequest’){
+if(!emptyempty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'){
 //If AJAX Request Then
 }else{
 //something else
@@ -1518,30 +1472,30 @@ function is_pwd(name)
 	
 //位运算
 在实际应用中可以做用户权限的应用
-我这里说到的权限管理办法是一个普遍采用的方法，主要是使用到”位运行符”操作，& 位与运算符、| 位或运行符。参与运算的如果是10进制数，则会被转换至2进制数参与运算，然后计算结果会再转换为10进制数输出。
+我这里说到的权限管理办法是一个普遍采用的方法，主要是使用到"位运行符"操作，& 位与运算符、| 位或运行符。参与运算的如果是10进制数，则会被转换至2进制数参与运算，然后计算结果会再转换为10进制数输出。
 它的权限值是这样的
-2^0=1，相应2进数为”0001″(在这里^我表示成”次方”，即：2的0次方，下同)
+2^0=1，相应2进数为"0001"(在这里^我表示成"次方"，即：2的0次方，下同)
 
-2^1=2，相应2进数为”0010″
-2^2=4，相应2进数为”0100″
-2^3=8，相应2进数为”1000″
+2^1=2，相应2进数为"0010"
+2^2=4，相应2进数为"0100"
+2^3=8，相应2进数为"1000"
 要判断一个数在某些数范围内就可以使用 & 运算符(数值从上面的表中得来)
 如：7=4|2|1　(你也可以简单理解成7=4+2+1)
 用 & 来操作，可以知道7&4、7&2、7&1都是真的，而如果7&8则是假的
 &、|　不熟悉的就要去查查手册，看看是怎么用的了
 下面来看例子吧：
 // 赋予权限值-->删除：8、上传：4、写入：2、只读：1
-define(“mDELETE”,8);
-define(“mUPLOAD”,4);
-define(“mWRITE”,2);
-define(“mREAD”,1);
+define("mDELETE",8);
+define("mUPLOAD",4);
+define("mWRITE",2);
+define("mREAD",1);
 //vvvvvvvvvvvvv使用说明vvvvvvvvvvvvv
 //部门经理的权限为(假设它拥有此部门的所有权限)，| 是位或运行符，不熟悉的就查查资料
-echo mDELETE|mUPLOAD|mWRITE|mREAD ,”
-“;// 相当于是把上面的权限值加起来：8+4+2+1=15
+echo mDELETE|mUPLOAD|mWRITE|mREAD ,"
+";// 相当于是把上面的权限值加起来：8+4+2+1=15
 // 设我只有 upload 和 read 权限，则
-echo mUPLOAD|mREAD ,”
-“;//相当于是把上传、只读的权限值分别相加：4+1=5
+echo mUPLOAD|mREAD ,"
+";//相当于是把上传、只读的权限值分别相加：4+1=5
 /*
 *赋予它多个权限就分别取得权限值相加，又比如某位员工拥有除了删除外的权限其余都拥有，那它的权限值是多少?
 *应该是：4+2+1＝7
@@ -1553,14 +1507,14 @@ echo mUPLOAD|mREAD ,”
 *判断权限用&位与符，
 */
 $key = 13;//13＝8+4+1
-if($key & mDELETE) echo “有删除权限
-“; //8
-if($key & mUPLOAD) echo “有上传权限
-“; //4
-$a=$key & mWRITE; echo “有写权限
-“.$a; //无此权限
-if($key & mREAD) echo “有读权限
-“; //1
+if($key & mDELETE) echo "有删除权限
+"; //8
+if($key & mUPLOAD) echo "有上传权限
+"; //4
+$a=$key & mWRITE; echo "有写权限
+".$a; //无此权限
+if($key & mREAD) echo "有读权限
+"; //1
 ?>
 　　OK，权限分值的这其中一个算法就是这样的，可以说是简单高效。也不知大家明白没有，不明白也没关系，记住例子就行了。前提就是做好权限值的分布，即那个1、2、4、8、16….(这里还有个顺序问题，越高级的权限就要越高的权限值，比如上面的例子所演示的删除权限)。有了权限分布表就可以确定给某个人什么权限了，你简单的理解成要哪个权限就加上相应的权限值吧。
 　　这个方法很好用的，缺点就是如果权限分布得细的话，那么权限值会越来越大，你自己想想，2的几次方、如果所有的权限都要则是全部相加。不过对于一般的权限来说这个已经足够了。
@@ -1686,7 +1640,7 @@ function generateCsv($data, $delimiter = ',', $enclosure = '"') {
 
 
 function sanitize_input_data($input_data) {
-	$input_data = trim(htmlentities(strip_tags($input_data,“,”)));
+	$input_data = trim(htmlentities(strip_tags($input_data,",")));
 	if (get_magic_quotes_gpc())
 	$input_data = stripslashes($input_data);
 	$input_data = mysql_real_escape_string($input_data);
